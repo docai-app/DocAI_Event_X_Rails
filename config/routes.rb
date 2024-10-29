@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  namespace :api do
+    resources :forms do
+      resources :form_submissions, only: %i[create index]
+    end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+    resources :form_submissions, param: :qrcode_id, only: [:show] do
+      member do
+        patch :check_in
+      end
+    end
+  end
 end
