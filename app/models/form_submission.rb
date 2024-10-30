@@ -16,11 +16,12 @@ class FormSubmission < ApplicationRecord
   validates :submission_data, presence: true
   validates :qrcode_id, presence: true, uniqueness: true
 
-  before_create :generate_qrcode_id
+  before_validation :generate_qrcode_id
 
   private
 
   def generate_qrcode_id
+    Rails.logger.info 'Generating QR Code ID'
     self.qrcode_id ||= SecureRandom.uuid
   end
 end

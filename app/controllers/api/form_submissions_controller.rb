@@ -1,11 +1,15 @@
 module Api
   class FormSubmissionsController < ApplicationController
-    before_action :set_form, only: [:create]
     before_action :set_form_submission, only: %i[show check_in]
 
-    # POST /api/forms/:form_id/submissions
+    # GET /api/form_submissions/:id
+    def show
+      render json: { success: true, form_submission: @form_submission }
+    end
+
+    # POST /api/form_submissions
     def create
-      @form_submission = @form.form_submissions.new(submission_params)
+      @form_submission = FormSubmission.new(submission_params)
 
       if @form_submission.save
         qr = RQRCode::QRCode.new(@form_submission.qrcode_id.to_s)
@@ -21,26 +25,7 @@ module Api
       end
     end
 
-    # GET /api/form_submissions/:qrcode_id
-    def show
-      render json: { success: true, form_submission: @form_submission }
-    end
-
-    # PATCH /api/form_submissions/:qrcode_id/check_in
-    def check_in
-      if @form_submission.checked_in?
-        render json: { success: false, message: 'Already checked in' }, status: :unprocessable_entity
-      else
-        @form_submission.update(checked_in: true)
-        render json: { success: true, message: 'Check-in successful' }, status: :ok
-      end
-    end
-
     private
-
-    def set_form
-      @form = Form.find(params[:form_id])
-    end
 
     def set_form_submission
       @form_submission = FormSubmission.find_by(qrcode_id: params[:qrcode_id])
@@ -48,7 +33,7 @@ module Api
     end
 
     def submission_params
-      params.require(:form_submission).permit(:submission_data: {})
+      params.require(:form_submission).permit(:form_id, submission_data: {})
     end
   end
 end
