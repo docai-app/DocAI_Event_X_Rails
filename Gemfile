@@ -62,6 +62,9 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  # Add annotate gem for model annotations
+  gem 'annotate'
 end
 
 group :test do
@@ -72,3 +75,5 @@ end
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'rqrcode'
+
+gem 'dotenv-rails', groups: %i[development test]

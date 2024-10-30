@@ -4,9 +4,11 @@ Rails.application.routes.draw do
       resources :form_submissions, only: %i[create index]
     end
 
-    resources :form_submissions, param: :qrcode_id, only: [:show] do
-      member do
-        patch :check_in
+    namespace :admin do
+      resources :form_submissions, param: :qrcode_id, only: [:show] do
+        member do
+          patch :check_in
+        end
       end
     end
   end

@@ -73,6 +73,9 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     base64 (0.2.0)
     bindex (0.8.1)
     bootsnap (1.18.4)
@@ -96,6 +99,10 @@ GEM
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    dotenv (3.1.4)
+    dotenv-rails (3.1.4)
+      dotenv (= 3.1.4)
+      railties (>= 6.1)
     erubi (1.13.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -231,9 +238,11 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
+  annotate
   bootsnap
   capybara
   debug
+  dotenv-rails
   importmap-rails
   jbuilder
   pg (~> 1.1)
