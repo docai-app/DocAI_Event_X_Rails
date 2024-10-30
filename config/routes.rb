@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :forms, only: %i[create show update destroy index]
 
-    resources :form_submissions, only: %i[create index show]
+    resources :form_submissions, only: %i[index show create update destroy]
 
     namespace :admin do
       resources :form_submissions, param: :qrcode_id, only: [:show] do

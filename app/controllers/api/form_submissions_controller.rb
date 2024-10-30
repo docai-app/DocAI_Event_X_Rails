@@ -1,6 +1,12 @@
 module Api
   class FormSubmissionsController < ApplicationController
-    before_action :set_form_submission, only: %i[show check_in]
+    before_action :set_form_submission, only: %i[show update destroy]
+
+    # GET /api/form_submissions
+    def index
+      @form_submissions = FormSubmission.all
+      render json: { success: true, form_submissions: @form_submissions }
+    end
 
     # GET /api/form_submissions/:id
     def show
@@ -12,23 +18,31 @@ module Api
       @form_submission = FormSubmission.new(submission_params)
 
       if @form_submission.save
-        qr = RQRCode::QRCode.new(@form_submission.qrcode_id.to_s)
-        svg = qr.as_svg(
-          offset: 0,
-          color: '000',
-          shape_rendering: 'crispEdges',
-          module_size: 6
-        )
         render json: { success: true, form_submission: @form_submission }, status: :created
       else
         render json: { success: false, errors: @form_submission.errors }, status: :unprocessable_entity
       end
     end
 
+    # PATCH/PUT /api/form_submissions/:id
+    def update
+      if @form_submission.update(submission_params)
+        render json: { success: true, form_submission: @form_submission }
+      else
+        render json: { success: false, errors: @form_submission.errors }, status: :unprocessable_entity
+      end
+    end
+
+    # DELETE /api/form_submissions/:id
+    def destroy
+      @form_submission.destroy
+      render json: { success: true, message: 'Form submission deleted successfully' }, status: :ok
+    end
+
     private
 
     def set_form_submission
-      @form_submission = FormSubmission.find_by(qrcode_id: params[:qrcode_id])
+      @form_submission = FormSubmission.find(params[:id])
       render json: { success: false, error: 'Not Found' }, status: :not_found unless @form_submission
     end
 
