@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_241_029_103_256) do
+ActiveRecord::Schema[7.0].define(version: 20_241_030_071_254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'pgcrypto'
   enable_extension 'plpgsql'
@@ -30,10 +30,11 @@ ActiveRecord::Schema[7.0].define(version: 20_241_029_103_256) do
   create_table 'forms', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
     t.string 'name', null: false
     t.string 'description'
-    t.jsonb 'structure', default: {}, null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['structure'], name: 'index_forms_on_structure', using: :gin
+    t.jsonb 'json_schema', default: {}
+    t.jsonb 'ui_schema', default: {}
+    t.jsonb 'form_data', default: {}
   end
 
   add_foreign_key 'form_submissions', 'forms'
