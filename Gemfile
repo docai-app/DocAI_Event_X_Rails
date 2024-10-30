@@ -77,3 +77,5 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'rqrcode'
 
 gem 'dotenv-rails', groups: %i[development test]
+
+gem 'rack-cors'
