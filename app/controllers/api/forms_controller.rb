@@ -1,6 +1,5 @@
 module Api
   class FormsController < ApplicationController
-    skip_before_action :verify_authenticity_token, only: [:create]
     before_action :set_form, only: %i[show update destroy]
 
     # POST /api/forms
