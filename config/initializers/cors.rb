@@ -9,7 +9,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://schema-frontend.docai.net', 'http://localhost:3002', 'http://localhost:3000',
+    origins 'https://schema-frontend.docai.net', 'hku-iday-mo-2024.konnec.ai', 'http://localhost:3002', 'http://localhost:3000',
             'http://localhost:8080', 'http://localhost:8889', 'http://localhost:8888',
             'https://docai-event-x-frontend-dev.vercel.app', 'http://localhost:3001'
 
