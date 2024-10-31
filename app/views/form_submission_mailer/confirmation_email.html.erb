@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        color: #0056b3;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      .footer {
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #777;
+      }
+      .qrcode {
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>表單提交確認</h1>
+      <p>尊敬的用戶，</p>
+      <p>感謝您提交表單！我們已經成功接收了您的信息，以下是您提交的詳細內容：</p>
+      <ul>
+        <% @submission_data.each do |key, value| %>
+          <li><strong><%= key.humanize %>:</strong> <%= value %></li>
+        <% end %>
+      </ul>
+      <div class="qrcode">
+        <p>以下是您的 QR Code：</p>
+        <%= raw @qrcode %>
+      </div>
+      <p>如果您有任何問題或需要進一步的幫助，請隨時與我們聯繫。</p>
+      <p>祝好，</p>
+      <p>您的團隊</p>
+      <div class="footer">
+        <p>此郵件為自動發送，請勿直接回覆。</p>
+        <p>© 2023 您的公司名稱. 保留所有權利。</p>
+      </div>
+    </div>
+  </body>
+</html>

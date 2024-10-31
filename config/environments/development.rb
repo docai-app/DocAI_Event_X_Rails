@@ -67,4 +67,20 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: ENV['SMTP_ADDRESS'],
+    port: ENV['SMTP_PORT'],
+    domain: ENV['SMTP_DOMAIN'],
+    user_name: ENV['SMTP_USER_NAME'],
+    password: ENV['SMTP_PASSWORD'],
+    authentication: :login,
+    enable_starttls_auto: true,
+    ssl: true
+  }
+
+  # 确保在开发环境中可以看到邮件的发送
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
 end

@@ -65,6 +65,9 @@ group :development do
 
   # Add annotate gem for model annotations
   gem 'annotate'
+
+  gem 'better_errors'
+  gem 'pry-byebug'
 end
 
 group :test do
