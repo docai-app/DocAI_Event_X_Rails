@@ -85,3 +85,4 @@ gem 'rack-cors'
 
 gem 'api-pagination'
 gem 'kaminari'
+gem 'mini_magick'

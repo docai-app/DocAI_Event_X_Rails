@@ -19,44 +19,51 @@
       h1 {
         color: #0056b3;
       }
-      ul {
-        list-style-type: none;
-        padding: 0;
-      }
-      li {
-        margin-bottom: 10px;
+      .section {
+        margin-bottom: 20px;
       }
       .footer {
         margin-top: 20px;
         font-size: 0.9em;
         color: #777;
       }
-      .qrcode {
-        margin-top: 20px;
-        text-align: center;
-      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>表單提交確認</h1>
-      <p>尊敬的用戶，</p>
-      <p>感謝您提交表單！我們已經成功接收了您的信息，以下是您提交的詳細內容：</p>
-      <ul>
-        <% @submission_data.each do |key, value| %>
-          <li><strong><%= key.humanize %>:</strong> <%= value %></li>
-        <% end %>
-      </ul>
-      <div class="qrcode">
-        <p>以下是您的 QR Code：</p>
-        <%= raw @qrcode %>
+      <div class="section">
+        <p><%= @submission_data['lastName'] %> <%= @submission_data['firstName'] %>，您好！</p>
+        <p>感謝報名香港大學本科入學資訊日(澳門)，您的參與資格已經確認，屆時請憑借本郵件內的 QR 碼參與活動，謝謝。</p>
       </div>
-      <p>如果您有任何問題或需要進一步的幫助，請隨時與我們聯繫。</p>
-      <p>祝好，</p>
-      <p>您的團隊</p>
+      <div class="section">
+        <p><strong>時間：</strong>11月9日(周六) 09:00-18:00<br>
+          <strong>地點：</strong>澳門得勝馬路廿八號陳瑞祺永援中學<br>
+          <strong>活動日程安排：</strong><a href="https://admissions.hku.hk/events">https://admissions.hku.hk/events</a></p>
+      </div>
+      <div class="section">
+        <p>期待與您相見！</p>
+        <p>香港大學入學事務部<br>
+          澳門聯校科學展覽青年協會(承辦單位)</p>
+      </div>
+      <hr>
+      <div class="section">
+        <p><%= @submission_data['firstName'] %> <%= @submission_data['lastName'] %>,</p>
+        <p>Thank you for registering for The University of Hong Kong Undergraduate Admissions Information Day 2024 (Macao). Your participation has been confirmed. Please present the QR code within this email upon arrival.</p>
+      </div>
+      <div class="section">
+        <p><strong>Date:</strong> 9 November 2024 (Saturday)<br>
+          <strong>Time:</strong> 9:00am-6:00pm<br>
+          <strong>Venue:</strong> Chan Sui Ki Perpetual Help College, 28, Estrada da Vitoria, Macao<br>
+          <strong>Event Schedule:</strong> <a href="https://admissions.hku.hk/events">https://admissions.hku.hk/events</a></p>
+      </div>
+      <div class="section">
+        <p>We look forward to seeing you!</p>
+        <p>Best Regards,</p>
+        <p>Admissions Office, The University of Hong Kong<br>
+          Macao Joint School Science Exhibition Youth Association (Co-organizer)</p>
+      </div>
       <div class="footer">
         <p>此郵件為自動發送，請勿直接回覆。</p>
-        <p>© 2023 您的公司名稱. 保留所有權利。</p>
       </div>
     </div>
   </body>

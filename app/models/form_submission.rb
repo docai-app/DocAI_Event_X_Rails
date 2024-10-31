@@ -21,13 +21,6 @@ class FormSubmission < ApplicationRecord
   before_validation :generate_qrcode_id
   after_create :send_confirmation_email
 
-  private
-
-  def generate_qrcode_id
-    Rails.logger.info 'Generating QR Code ID'
-    self.qrcode_id ||= SecureRandom.uuid
-  end
-
   def send_confirmation_email
     return if confirmation_email_sent
 
@@ -38,4 +31,12 @@ class FormSubmission < ApplicationRecord
       Rails.logger.warn 'No email found in submission_data'
     end
   end
+
+  private
+
+  def generate_qrcode_id
+    Rails.logger.info 'Generating QR Code ID'
+    self.qrcode_id ||= SecureRandom.uuid
+  end
+  
 end

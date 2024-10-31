@@ -1,5 +1,6 @@
 class FormSubmissionMailer < ApplicationMailer
   require 'rqrcode'
+  require 'mini_magick'
 
   def confirmation_email(form_submission_id)
     form_submission = FormSubmission.find(form_submission_id)
@@ -8,26 +9,41 @@ class FormSubmissionMailer < ApplicationMailer
     return if form_submission.confirmation_email_sent
 
     @submission_data = form_submission.submission_data
-    @qrcode = generate_qrcode(form_submission.qrcode_id)
+    qrcode_png = generate_qrcode_png(form_submission.qrcode_id)
 
-    mail(to: @submission_data['email'], subject: "Form Submission Confirmation") do |format|
+    attachments['qrcode.png'] = qrcode_png
+
+    mail(
+      to: @submission_data['email'],
+      subject: "Form Submission Confirmation",
+      from: 'hku-iday-mo-reg@mjsseya.org'
+    ) do |format|
       format.html
     end
 
     # 邮件发送后更新状态
-    form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
+    # form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
   end
 
   private
 
-  def generate_qrcode(qrcode_id)
+  def generate_qrcode_png(qrcode_id)
     qrcode = RQRCode::QRCode.new(qrcode_id)
-    qrcode.as_svg(
-      offset: 0,
-      color: '000',
-      shape_rendering: 'crispEdges',
-      module_size: 6,
-      standalone: true
+    png = qrcode.as_png(
+      bit_depth: 1,
+      border_modules: 4,
+      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+      color: 'black',
+      file: nil,
+      fill: 'white',
+      module_px_size: 6,
+      resize_exactly_to: false,
+      resize_gte_to: false,
+      size: 120
     )
+    # 使用 MiniMagick 将 PNG 转换为二进制数据
+    image = MiniMagick::Image.read(png.to_s)
+    image.format("png")
+    image.to_blob
   end
 end 
