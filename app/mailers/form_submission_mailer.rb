@@ -22,7 +22,7 @@ class FormSubmissionMailer < ApplicationMailer
     end
 
     # 邮件发送后更新状态
-    # form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
+    form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
   end
 
   private
