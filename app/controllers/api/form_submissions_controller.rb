@@ -39,6 +39,13 @@ module Api
       render json: { success: true, message: 'Form submission deleted successfully' }, status: :ok
     end
 
+    # GET /api/form_submissions/form/:form_id
+    def index_by_form
+      @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :desc)
+      @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(50)
+      render json: { success: true, form_submissions: @form_submissions, meta: pagination_meta(@form_submissions) }
+    end
+
     private
 
     def set_form_submission
@@ -48,6 +55,16 @@ module Api
 
     def submission_params
       params.require(:form_submission).permit(:form_id, submission_data: {})
+    end
+
+    def pagination_meta(object)
+      {
+        current_page: object.current_page,
+        next_page: object.next_page,
+        prev_page: object.prev_page,
+        total_pages: object.total_pages,
+        total_count: object.total_count
+      }
     end
   end
 end
