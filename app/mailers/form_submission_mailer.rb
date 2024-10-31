@@ -5,9 +5,7 @@ class FormSubmissionMailer < ApplicationMailer
   def confirmation_email(form_submission_id)
     form_submission = FormSubmission.find(form_submission_id)
 
-    # 检查邮件是否已经发送
-    return if form_submission.confirmation_email_sent
-
+    # 强制重新发送邮件，无需检查 confirmation_email_sent
     @submission_data = form_submission.submission_data
     qrcode_png = generate_qrcode_png(form_submission.qrcode_id)
 
@@ -36,10 +34,10 @@ class FormSubmissionMailer < ApplicationMailer
       color: 'black',
       file: nil,
       fill: 'white',
-      module_px_size: 6,
+      module_px_size: 10,
       resize_exactly_to: false,
       resize_gte_to: false,
-      size: 120
+      size: 240
     )
     # 使用 MiniMagick 将 PNG 转换为二进制数据
     image = MiniMagick::Image.read(png.to_s)
