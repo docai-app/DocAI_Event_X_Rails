@@ -13,7 +13,7 @@ class FormSubmissionMailer < ApplicationMailer
 
     mail(
       to: @submission_data['email'],
-      subject: "Form Submission Confirmation",
+      subject: 'Form Submission Confirmation',
       from: 'hku-iday-mo-reg@mjsseya.org'
     ) do |format|
       format.html
@@ -41,7 +41,7 @@ class FormSubmissionMailer < ApplicationMailer
     )
     # 使用 MiniMagick 将 PNG 转换为二进制数据
     image = MiniMagick::Image.read(png.to_s)
-    image.format("png")
+    image.format('png')
     image.to_blob
   end
-end 
+end

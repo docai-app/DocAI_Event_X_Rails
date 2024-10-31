@@ -4,9 +4,9 @@ class FormSubmissionMailerPreview < ActionMailer::Preview
     form_submission = FormSubmission.first || FormSubmission.create(
       form_id: SecureRandom.uuid,
       submission_data: {
-        "name" => "張三",
-        "email" => "example@example.com",
-        "phone" => "1234567890"
+        'name' => '張三',
+        'email' => 'example@example.com',
+        'phone' => '1234567890'
       },
       qrcode_id: SecureRandom.uuid
     )
@@ -14,4 +14,4 @@ class FormSubmissionMailerPreview < ActionMailer::Preview
     # 调用邮件方法
     FormSubmissionMailer.confirmation_email(form_submission.id)
   end
-end 
+end

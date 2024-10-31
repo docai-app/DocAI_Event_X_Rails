@@ -2,7 +2,7 @@ module Api
   module Admin
     class FormSubmissionsController < ApplicationController
       include AdminAuthenticator
-      before_action :set_form_submission, only: %i[show check_in]
+      before_action :set_form_submission, only: %i[show check_in cancel_check_in]
 
       # GET /api/admin/form_submissions/:qrcode_id
       def show
@@ -15,6 +15,20 @@ module Api
           render json: { success: false, message: '已經簽到過' }, status: :unprocessable_entity
         elsif @form_submission.update(checked_in: true)
           render json: { success: true, message: '簽到成功' }, status: :ok
+        else
+          render json: { success: false, errors: @form_submission.errors }, status: :unprocessable_entity
+        end
+      end
+
+      # PATCH /api/admin/form_submissions/:qrcode_id/cancel_check_in
+      def cancel_check_in
+        unless @form_submission.checked_in?
+          render json: { success: false, message: '尚未簽到' }, status: :unprocessable_entity
+          return
+        end
+
+        if @form_submission.update(checked_in: false)
+          render json: { success: true, message: '取消簽到成功' }, status: :ok
         else
           render json: { success: false, errors: @form_submission.errors }, status: :unprocessable_entity
         end

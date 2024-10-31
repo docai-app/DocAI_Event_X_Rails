@@ -38,5 +38,4 @@ class FormSubmission < ApplicationRecord
     Rails.logger.info 'Generating QR Code ID'
     self.qrcode_id ||= SecureRandom.uuid
   end
-  
 end
