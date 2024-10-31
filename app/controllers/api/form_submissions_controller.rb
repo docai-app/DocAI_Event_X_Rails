@@ -1,6 +1,6 @@
 module Api
   class FormSubmissionsController < ApplicationController
-    before_action :set_form_submission, only: %i[show update destroy]
+    before_action :set_form_submission, only: %i[show update destroy resend_confirmation_email]
 
     # GET /api/form_submissions
     def index
@@ -44,6 +44,14 @@ module Api
       @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :desc)
       @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(50)
       render json: { success: true, form_submissions: @form_submissions, meta: pagination_meta(@form_submissions) }
+    end
+
+    def resend_confirmation_email
+      # 强制重新发送邮件，无需检查 confirmation_email_sent
+      FormSubmissionMailer.confirmation_email(@form_submission.id).deliver_later
+      render json: { message: 'Confirmation email has been resent.' }, status: :ok
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Form submission not found.' }, status: :not_found
     end
 
     private

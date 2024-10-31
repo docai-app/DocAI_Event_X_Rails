@@ -6,6 +6,10 @@ Rails.application.routes.draw do
       collection do
         get 'form/:form_id', to: 'form_submissions#index_by_form', as: 'by_form'
       end
+
+      member do
+        post :resend_confirmation_email
+      end
     end
 
     namespace :admin do
