@@ -13,7 +13,7 @@ class FormSubmissionMailer < ApplicationMailer
 
     mail(
       to: @submission_data['email'],
-      subject: 'Form Submission Confirmation',
+      subject: '香港大學活動參與確認 HKU Event Participation Confirmation',
       from: 'hku-iday-mo-reg@mjsseya.org'
     ) do |format|
       format.html
