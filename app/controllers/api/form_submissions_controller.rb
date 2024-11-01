@@ -41,7 +41,7 @@ module Api
 
     # GET /api/form_submissions/form/:form_id
     def index_by_form
-      @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :desc)
+      @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :asc)
       @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(50)
       render json: { success: true, form_submissions: @form_submissions, meta: pagination_meta(@form_submissions) }
     end
