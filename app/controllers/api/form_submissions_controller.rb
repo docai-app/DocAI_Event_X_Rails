@@ -4,7 +4,7 @@ module Api
 
     # GET /api/form_submissions
     def index
-      @form_submissions = FormSubmission.all
+      @form_submissions = FormSubmission.all.order(created_at: :asc)
       render json: { success: true, form_submissions: @form_submissions }
     end
 
