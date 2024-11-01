@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
       member do
         post :resend_confirmation_email
+        patch :check_in
       end
     end
 

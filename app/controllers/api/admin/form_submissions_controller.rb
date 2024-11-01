@@ -13,7 +13,7 @@ module Api
       def check_in
         if @form_submission.checked_in?
           render json: { success: false, message: '已經簽到過' }, status: :unprocessable_entity
-        elsif @form_submission.update(checked_in: true)
+        elsif @form_submission.update(checked_in: true, check_in_at: DateTime.current)
           render json: { success: true, message: '簽到成功' }, status: :ok
         else
           render json: { success: false, errors: @form_submission.errors }, status: :unprocessable_entity

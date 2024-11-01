@@ -1,6 +1,6 @@
 module Api
   class FormSubmissionsController < ApplicationController
-    before_action :set_form_submission, only: %i[show update destroy resend_confirmation_email]
+    before_action :set_form_submission, only: %i[show update destroy resend_confirmation_email check_in]
 
     # GET /api/form_submissions
     def index
@@ -52,6 +52,14 @@ module Api
       render json: { message: 'Confirmation email has been resent.' }, status: :ok
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'Form submission not found.' }, status: :not_found
+    end
+
+    def check_in
+      if @form_submission.update(check_in_at: Time.current)
+        render json: { success: true, message: 'Check-in time recorded successfully.' }, status: :ok
+      else
+        render json: { success: false, errors: @form_submission.errors }, status: :unprocessable_entity
+      end
     end
 
     private
