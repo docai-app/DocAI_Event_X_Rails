@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_01_004814) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_01_035916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_01_004814) do
     t.jsonb "json_schema", default: {}
     t.jsonb "ui_schema", default: {}
     t.jsonb "form_data", default: {}
+    t.jsonb "display_order", default: [], null: false
   end
 
   add_foreign_key "form_submissions", "forms"
