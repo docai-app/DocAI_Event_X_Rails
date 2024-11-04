@@ -1,10 +1,10 @@
 module Api
   class FormSubmissionsController < ApplicationController
-    before_action :set_form_submission, only: %i[show update destroy resend_confirmation_email]
+    before_action :set_form_submission, only: %i[show update destroy resend_confirmation_email check_in]
 
     # GET /api/form_submissions
     def index
-      @form_submissions = FormSubmission.all
+      @form_submissions = FormSubmission.all.order(created_at: :asc)
       render json: { success: true, form_submissions: @form_submissions }
     end
 
@@ -41,7 +41,7 @@ module Api
 
     # GET /api/form_submissions/form/:form_id
     def index_by_form
-      @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :desc)
+      @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :asc)
       @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(50)
       render json: { success: true, form_submissions: @form_submissions, meta: pagination_meta(@form_submissions) }
     end
@@ -52,6 +52,14 @@ module Api
       render json: { message: 'Confirmation email has been resent.' }, status: :ok
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'Form submission not found.' }, status: :not_found
+    end
+
+    def check_in
+      if @form_submission.update(check_in_at: Time.current)
+        render json: { success: true, message: 'Check-in time recorded successfully.' }, status: :ok
+      else
+        render json: { success: false, errors: @form_submission.errors }, status: :unprocessable_entity
+      end
     end
 
     private
