@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class FormSubmissionsController < ApplicationController
     before_action :set_form_submission, only: %i[show update destroy resend_confirmation_email check_in]

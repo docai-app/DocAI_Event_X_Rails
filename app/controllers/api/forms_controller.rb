@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class FormsController < ApplicationController
     before_action :set_form, only: %i[show update destroy]

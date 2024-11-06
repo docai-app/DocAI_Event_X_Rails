@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FormSubmissionMailer < ApplicationMailer
   require 'rqrcode'
   require 'mini_magick'
@@ -14,10 +16,8 @@ class FormSubmissionMailer < ApplicationMailer
     mail(
       to: @submission_data['email'],
       subject: '香港大學活動參與確認 HKU Event Participation Confirmation',
-      from: 'hku-iday-mo-reg@mjsseya.org'
-    ) do |format|
-      format.html
-    end
+      from: 'hku-iday-mo-reg@mjsseya.org', &:html
+    )
 
     # 邮件发送后更新状态
     form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)

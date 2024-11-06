@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FormSubmissionMailerPreview < ActionMailer::Preview
   def confirmation_email
     # 创建一个示例的 FormSubmission

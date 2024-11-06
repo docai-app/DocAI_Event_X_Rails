@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFormSubmissions < ActiveRecord::Migration[7.0]
   def change
     create_table :form_submissions, id: :uuid do |t|
