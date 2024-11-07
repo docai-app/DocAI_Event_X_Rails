@@ -7,6 +7,8 @@ class FormSubmissionMailer < ApplicationMailer
   def confirmation_email(form_submission_id)
     form_submission = FormSubmission.find(form_submission_id)
 
+    puts "Sending confirmation email to #{form_submission.submission_data['email']}!!!"
+
     # 强制重新发送邮件，无需检查 confirmation_email_sent
     @submission_data = form_submission.submission_data
     qrcode_png = generate_qrcode_png(form_submission.qrcode_id)
