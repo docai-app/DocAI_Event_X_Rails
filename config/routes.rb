@@ -7,11 +7,13 @@ Rails.application.routes.draw do
     resources :form_submissions, only: %i[index show create update destroy] do
       collection do
         get 'form/:form_id', to: 'form_submissions#index_by_form', as: 'by_form'
+        get 'form/:form_id/search', to: 'form_submissions#search_by_form', as: 'search_by_form'
       end
 
       member do
         post :resend_confirmation_email
         patch :check_in
+        get :search
       end
     end
 

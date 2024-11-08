@@ -43,7 +43,7 @@ module Api
 
     # GET /api/form_submissions/form/:form_id
     def index_by_form
-      @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :asc)
+      @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :desc)
       @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(50)
       render json: { success: true, form_submissions: @form_submissions, meta: pagination_meta(@form_submissions) }
     end
@@ -62,6 +62,18 @@ module Api
       else
         render json: { success: false, errors: @form_submission.errors }, status: :unprocessable_entity
       end
+    end
+
+    # GET /api/form_submissions/:form_id/search?query=...
+    # version 1: 使用 SQL 模糊搜索，井不是通用方案，只針對 lastName, firstName, email 進行搜索，較hard code的！
+    def search_by_form
+      form_id = params[:form_id]
+      query = params[:query]
+      @form_submissions = FormSubmission.where(form_id:).where(
+        "submission_data->>'lastName' ILIKE ? OR submission_data->>'firstName' ILIKE ? OR submission_data->>'email' ILIKE ?",
+        "%#{query}%", "%#{query}%", "%#{query}%"
+      )
+      render json: { success: true, form_submissions: @form_submissions }
     end
 
     private
