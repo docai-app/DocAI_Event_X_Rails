@@ -72,8 +72,11 @@ module Api
       @form_submissions = FormSubmission.where(form_id:).where(
         "submission_data->>'lastName' ILIKE ? OR submission_data->>'firstName' ILIKE ? OR submission_data->>'email' ILIKE ?",
         "%#{query}%", "%#{query}%", "%#{query}%"
-      )
-      render json: { success: true, form_submissions: @form_submissions }
+      ).order(created_at: :desc)
+      @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(@form_submissions.size)
+      render json: { success: true, form_submissions: @form_submissions, meta: pagination_meta(@form_submissions) }
+    rescue StandardError => e
+      render json: { success: false, error: e.message }, status: :unprocessable_entity
     end
 
     private
