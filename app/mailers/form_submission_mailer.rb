@@ -15,10 +15,19 @@ class FormSubmissionMailer < ApplicationMailer
 
     attachments['qrcode.png'] = qrcode_png
 
+    puts "@submission_data: #{@submission_data}"
+    puts "form_submission: #{form_submission}"
+
+    # mail(
+    #   to: @submission_data['email'],
+    #   subject: '香港大學活動參與確認 HKU Event Participation Confirmation',
+    #   from: 'hku-iday-mo-reg@mjsseya.org', &:html
+    # )
+
     mail(
       to: @submission_data['email'],
-      subject: '香港大學活動參與確認 HKU Event Participation Confirmation',
-      from: 'hku-iday-mo-reg@mjsseya.org', &:html
+      subject: '活動參與確認 Event Participation Confirmation',
+      from: 'info@mjsseya.org', &:html
     )
 
     # 邮件发送后更新状态
