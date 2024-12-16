@@ -45,7 +45,9 @@ module Api
     def index_by_form
       @form_submissions = FormSubmission.where(form_id: params[:form_id]).all.order(created_at: :desc)
       @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(50)
-      render json: { success: true, form_submissions: @form_submissions, meta: pagination_meta(@form_submissions) }
+      @form = Form.find(params[:form_id])
+      render json: { success: true, form_submissions: @form_submissions, form: @form,
+                     meta: pagination_meta(@form_submissions) }
     end
 
     def resend_confirmation_email
