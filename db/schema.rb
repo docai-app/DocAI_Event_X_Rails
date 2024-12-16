@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_241_216_084_543) do
+ActiveRecord::Schema[7.0].define(version: 20_241_216_090_040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'pgcrypto'
   enable_extension 'plpgsql'
@@ -40,6 +40,8 @@ ActiveRecord::Schema[7.0].define(version: 20_241_216_084_543) do
     t.jsonb 'form_data', default: {}
     t.jsonb 'display_order', default: [], null: false
     t.boolean 'is_active', default: false, null: false
+    t.jsonb 'meta', default: {}, null: false
+    t.index ['meta'], name: 'index_forms_on_meta', using: :gin
   end
 
   add_foreign_key 'form_submissions', 'forms'

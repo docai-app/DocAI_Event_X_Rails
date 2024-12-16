@@ -54,7 +54,17 @@ module Api
     end
 
     def form_params
-      params.require(:form).permit(:name, :description, json_schema: {}, ui_schema: {}, form_data: {})
+      params.require(:form).permit(
+        :name,
+        :description,
+        :is_active,
+        meta: {
+          display: %i[title description]
+        },
+        json_schema: {},
+        ui_schema: {},
+        form_data: {}
+      )
     end
   end
 end
