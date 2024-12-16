@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_241_101_035_916) do
+ActiveRecord::Schema[7.0].define(version: 20_241_216_084_543) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'pgcrypto'
   enable_extension 'plpgsql'
@@ -41,6 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 20_241_101_035_916) do
     t.jsonb 'ui_schema', default: {}
     t.jsonb 'form_data', default: {}
     t.jsonb 'display_order', default: [], null: false
+    t.boolean 'is_active', default: false, null: false
   end
 
   add_foreign_key 'form_submissions', 'forms'

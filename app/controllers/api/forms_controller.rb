@@ -22,7 +22,13 @@ module Api
 
     # GET /api/forms
     def index
-      @forms = Form.all
+      @forms = if params[:status] == 'active'
+                 Form.active
+               elsif params[:status] == 'inactive'
+                 Form.inactive
+               else
+                 Form.all
+               end
       render json: { success: true, forms: @forms }
     end
 

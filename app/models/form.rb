@@ -20,4 +20,8 @@ class Form < ApplicationRecord
   validates :json_schema, presence: true
   validates :ui_schema, presence: true
   validates :form_data, presence: true
+  validates :is_active, inclusion: { in: [true, false] }
+
+  scope :active, -> { where(is_active: true) }
+  scope :inactive, -> { where(is_active: false) }
 end

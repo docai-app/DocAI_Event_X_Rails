@@ -27,43 +27,76 @@
         font-size: 0.9em;
         color: #777;
       }
+      ul {
+        list-style-type: disc;
+        margin-left: 20px;
+      }
+      ol {
+        list-style-type: decimal;
+        margin-left: 20px;
+      }
+      a {
+        color: #0056b3;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
     <div class="container">
+      <!-- 英文部分 -->
       <div class="section">
-        <p><%= @submission_data['lastName'] %> <%= @submission_data['firstName'] %>，您好！</p>
-        <p>感謝報名香港大學本科入學資訊日(澳門)，您的參與資格已經確認，屆時請憑借本郵件內的 QR 碼參與活動，謝謝。</p>
+        <p>Dear <%= @submission_data['studentName'] %>,</p>
+        <p>Congratulations! You have successfully registered for the AI4S TEEN Challenge Series. We are thrilled to have you join this exciting competition, where you will have the opportunity to showcase your skills, tackle complex problems, and connect with young minds passionate about artificial intelligence from around the world.</p>
       </div>
+      
+      <!-- Registration Details -->
       <div class="section">
-        <p><strong>時間：</strong>11月9日(周六) 09:00-18:00<br>
-          <strong>地點：</strong>澳門得勝馬路廿八號陳瑞祺永援中學<br>
-          <strong>活動日程安排：</strong><a href="https://admissions.hku.hk/events/hku-information-day-ug-admissions-2024-macao">https://admissions.hku.hk/events/hku-information-day-ug-admissions-2024-macao</a></p>
+        <h2>Registration Details:</h2>
+        <ul>
+          <li><strong>Student Name:</strong> <%= @submission_data['studentName'] %></li>
+          <li><strong>Country of Residence:</strong> <%= @submission_data['countryOfResidence'] %></li>
+          <li><strong>School Name:</strong> <%= @submission_data['schoolName'] %></li>
+          <li><strong>Date of Birth:</strong> <%= @submission_data['dateOfBirth'] %></li>
+          <li><strong>Email Address:</strong> <%= @submission_data['emailAddress'] %></li>
+          <li><strong>Supervising Teacher:</strong> <%= @submission_data['supervisingTeacher'] %></li>
+          <li><strong>Main Subject(s) Taught by the Supervising Teacher:</strong> <%= @submission_data['mainSubjects'].join(', ') %></li>
+        </ul>
       </div>
+      
+      <!-- Key Dates -->
       <div class="section">
-        <p>期待與您相見！</p>
-        <p>香港大學入學事務部<br>
-          澳門聯校科學展覽青年協會(承辦單位)</p>
+        <h2>Key Dates to Remember:</h2>
+        <ul>
+          <li><strong>Registration Period:</strong> December 27, 2024 - January 18, 2025</li>
+          <li><strong>Competition Period:</strong> December 27, 2024 - January 18, 2025</li>
+          <li><strong>Final Competition Period:</strong> January 20, 2025 - January 26, 2025</li>
+        </ul>
       </div>
-      <hr>
+      
+      <!-- Next Steps -->
       <div class="section">
-        <p><%= @submission_data['firstName'] %> <%= @submission_data['lastName'] %>,</p>
-        <p>Thank you for registering for The University of Hong Kong Undergraduate Admissions Information Day 2024 (Macao). Your participation has been confirmed. Please present the QR code within this email upon arrival.</p>
+        <h2>Next Steps:</h2>
+        <ol>
+          <li><strong>Preparation:</strong> You can start preparing for the competition by reviewing the provided materials and resources available on the official competition website.</li>
+          <li><strong>Access Competition Questions:</strong> You will be able to view and start working on your solutions on the competition platform.</li>
+          <li><strong>Submission:</strong> Ensure you submit your completed tasks via the competition platform before January 18, 2025.</li>
+        </ol>
       </div>
+      
+      <!-- Additional Information -->
       <div class="section">
-        <p><strong>Date:</strong> 9 November 2024 (Saturday)<br>
-          <strong>Time:</strong> 9:00am-6:00pm<br>
-          <strong>Venue:</strong> Chan Sui Ki Perpetual Help College, 28, Estrada da Vitoria, Macao<br>
-          <strong>Event Schedule:</strong> <a href="https://admissions.hku.hk/events/hku-information-day-ug-admissions-2024-macao">https://admissions.hku.hk/events/hku-information-day-ug-admissions-2024-macao</a></p>
+        <p>For real-time updates, important announcements, and interactions with fellow participants, make sure to join our community on <a href="https://chat.whatsapp.com/D6zNyZbloBmIczukXAWvOQ">WhatsApp</a>.</p>
+        <p>If you have any questions or need assistance, please do not hesitate to contact us at <a href="mailto:ai4s@mcaai.org">ai4s@mcaai.org</a>.</p>
       </div>
+      
+      <!-- Closing Remarks -->
       <div class="section">
-        <p>We look forward to seeing you!</p>
-        <p>Best Regards,</p>
-        <p>Admissions Office, The University of Hong Kong<br>
-          Macao Joint School Science Exhibition Youth Association (Co-organizer)</p>
-      </div>
-      <div class="footer">
-        <p>此郵件為自動發送，請勿直接回覆。</p>
+        <p>Best of luck, and we look forward to your participation!</p>
+        <p>Warm regards,</p>
+        <p>AI4S Preparation Committee</p>
       </div>
     </div>
   </body>
