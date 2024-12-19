@@ -95,3 +95,14 @@ production:
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
   sslmode: require
+
+local:
+  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
+  port: 5432
+  database: docai_event_x_rails_local
+  username: postgres
+  password: postgres

@@ -32,6 +32,7 @@
 
 # Ignore dotenv file.
 .env
+.env.local
 __pycache__/
 
 docker-compose.yml

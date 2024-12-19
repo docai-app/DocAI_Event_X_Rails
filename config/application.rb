@@ -26,5 +26,6 @@ module DocaiEventXRails
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.hosts << 'event.docai.net'
+    config.hosts << '127.0.0.1:3010'
   end
 end
