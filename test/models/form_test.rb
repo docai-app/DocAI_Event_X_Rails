@@ -4,12 +4,17 @@
 #
 # Table name: forms
 #
-#  id          :uuid             not null, primary key
-#  name        :string           not null
-#  description :string
-#  structure   :jsonb            not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id            :uuid             not null, primary key
+#  name          :string           not null
+#  description   :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  json_schema   :jsonb
+#  ui_schema     :jsonb
+#  form_data     :jsonb
+#  display_order :jsonb            not null
+#  is_active     :boolean          default(FALSE), not null
+#  meta          :jsonb            not null
 #
 require 'test_helper'
 
