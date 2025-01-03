@@ -2,22 +2,14 @@
 
 Rails.application.routes.draw do
   namespace :api do
-    resources :forms, only: %i[create show update destroy index]
-
-    resources :form_submissions, only: %i[index show create update destroy] do
-      collection do
-        get 'form/:form_id', to: 'form_submissions#index_by_form', as: 'by_form'
-        get 'form/:form_id/search', to: 'form_submissions#search_by_form', as: 'search_by_form'
-      end
-
-      member do
-        post :resend_confirmation_email
-        patch :check_in
-        get :search
-      end
-    end
+    # 普通用戶只能查看表單
+    resources :forms, only: %i[index show]
 
     namespace :admin do
+      # 管理員可以完整操作表單
+      resources :forms
+
+      # 保留原有的 form_submissions 路由
       resources :form_submissions, param: :qrcode_id, only: [:show] do
         member do
           patch :check_in
