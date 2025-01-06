@@ -51,17 +51,19 @@ class FormSubmissionMailer < ApplicationMailer
     template = Liquid::Template.parse(@template.html_content)
     @email_content = template.render(@submission_data)
 
+    # 明確指定使用 confirmation_email_template
     mail(
       to: @submission_data['email'],
       subject: @template.subject,
-      from: 'info@mjsseya.org'
+      from: 'info@mjsseya.org',
+      template_name: 'confirmation_email_template'
     )
 
     @form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
   rescue StandardError => e
     if (retries += 1) <= 3
       Rails.logger.warn("重試發送郵件 #{retries}/3: #{e.message}")
-      sleep(2 ** retries)
+      sleep(2**retries)
       retry
     else
       Rails.logger.error("郵件發送失敗: #{e.message}")
@@ -73,7 +75,7 @@ class FormSubmissionMailer < ApplicationMailer
     return false unless form&.email_enabled?
     return false unless form.email_template
     return false if submission_data['email'].blank?
-    
+
     template.placeholders.all? { |p| submission_data[p].present? }
   end
 

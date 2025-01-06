@@ -48,7 +48,7 @@ namespace :import do
       # 強制觸發郵件發送
       unless form_submission.confirmation_email_sent
         begin
-          form_submission.send_confirmation_email
+          FormSubmissionMailer.confirmation_email(form_submission.id).deliver_now
           puts "成功發送確認郵件到: #{submission_data['email']}"
         rescue StandardError => e
           puts "發送確認郵件失敗: #{e.message}"
