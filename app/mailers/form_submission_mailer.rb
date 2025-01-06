@@ -4,34 +4,59 @@ class FormSubmissionMailer < ApplicationMailer
   require 'rqrcode'
   require 'mini_magick'
 
+  # def confirmation_email(form_submission_id)
+  #   form_submission = FormSubmission.find(form_submission_id)
+
+  #   puts "Sending confirmation email to #{form_submission.submission_data['email']}!!!"
+
+  #   # 强制重新发送邮件，无需检查 confirmation_email_sent
+  #   @submission_data = form_submission.submission_data
+  #   qrcode_png = generate_qrcode_png(form_submission.qrcode_id)
+
+  #   attachments['qrcode.png'] = qrcode_png
+
+  #   puts "@submission_data: #{@submission_data}"
+  #   puts "form_submission: #{form_submission}"
+
+  #   # mail(
+  #   #   to: @submission_data['email'],
+  #   #   subject: '香港大學活動參與確認 HKU Event Participation Confirmation',
+  #   #   from: 'hku-iday-mo-reg@mjsseya.org', &:html
+  #   # )
+
+  #   mail(
+  #     to: @submission_data['email'],
+  #     subject: '活動參與確認 Event Participation Confirmation',
+  #     from: 'info@mjsseya.org', &:html
+  #   )
+
+  #   # 邮件发送后更新状态
+  #   form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
+  # end
+
   def confirmation_email(form_submission_id)
-    form_submission = FormSubmission.find(form_submission_id)
+    @form_submission = FormSubmission.find(form_submission_id)
 
-    puts "Sending confirmation email to #{form_submission.submission_data['email']}!!!"
+    # 檢查表單是否啟用郵件功能
+    raise StandardError, '此表單未啟用郵件功能' unless @form_submission.form.email_enabled?
 
-    # 强制重新发送邮件，无需检查 confirmation_email_sent
-    @submission_data = form_submission.submission_data
-    qrcode_png = generate_qrcode_png(form_submission.qrcode_id)
+    @template = @form_submission.form.email_template
+    raise StandardError, '沒有找到郵件模板' unless @template
 
+    @submission_data = @form_submission.submission_data
+    qrcode_png = generate_qrcode_png(@form_submission.qrcode_id)
     attachments['qrcode.png'] = qrcode_png
 
-    puts "@submission_data: #{@submission_data}"
-    puts "form_submission: #{form_submission}"
-
-    # mail(
-    #   to: @submission_data['email'],
-    #   subject: '香港大學活動參與確認 HKU Event Participation Confirmation',
-    #   from: 'hku-iday-mo-reg@mjsseya.org', &:html
-    # )
+    template = Liquid::Template.parse(@template.html_content)
+    @email_content = template.render(@submission_data)
 
     mail(
       to: @submission_data['email'],
-      subject: '活動參與確認 Event Participation Confirmation',
-      from: 'info@mjsseya.org', &:html
+      subject: @template.subject,
+      from: 'info@mjsseya.org'
     )
 
-    # 邮件发送后更新状态
-    form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
+    @form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
   end
 
   private

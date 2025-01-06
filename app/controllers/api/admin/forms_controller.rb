@@ -52,12 +52,20 @@ module Api
           :name,
           :description,
           :is_active,
+          :email_enabled,
           meta: {
             display: %i[title description]
           },
           json_schema: {},
           ui_schema: {},
-          form_data: {}
+          form_data: {},
+          email_template_attributes: [
+            :id,
+            :name,
+            :subject,
+            :html_content,
+            { placeholders: [] }
+          ]
         )
       end
     end

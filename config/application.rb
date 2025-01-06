@@ -27,5 +27,6 @@ module DocaiEventXRails
 
     config.hosts << 'event.docai.net'
     config.hosts << '127.0.0.1:3010'
+    config.hosts << '127.0.0.1:3000'
   end
 end

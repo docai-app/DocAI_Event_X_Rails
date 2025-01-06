@@ -7,7 +7,9 @@ Rails.application.routes.draw do
 
     namespace :admin do
       # 管理員可以完整操作表單
-      resources :forms
+      resources :forms do
+        resource :email_template, only: %i[show update]
+      end
 
       # 保留原有的 form_submissions 路由
       resources :form_submissions, param: :qrcode_id, only: [:show] do

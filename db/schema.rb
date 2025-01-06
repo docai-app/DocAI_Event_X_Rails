@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_241_216_090_040) do
+ActiveRecord::Schema[7.0].define(version: 20_250_106_094_422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'pgcrypto'
   enable_extension 'plpgsql'
+
+  create_table 'email_templates', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
+    t.string 'name', null: false
+    t.string 'subject', null: false
+    t.text 'html_content', null: false
+    t.jsonb 'placeholders', default: [], null: false
+    t.boolean 'is_active', default: true
+    t.uuid 'form_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['form_id'], name: 'index_email_templates_on_form_id'
+  end
 
   create_table 'form_submissions', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
     t.uuid 'form_id', null: false
@@ -41,8 +53,10 @@ ActiveRecord::Schema[7.0].define(version: 20_241_216_090_040) do
     t.jsonb 'display_order', default: [], null: false
     t.boolean 'is_active', default: false, null: false
     t.jsonb 'meta', default: {}, null: false
+    t.boolean 'email_enabled', default: false
     t.index ['meta'], name: 'index_forms_on_meta', using: :gin
   end
 
+  add_foreign_key 'email_templates', 'forms'
   add_foreign_key 'form_submissions', 'forms'
 end

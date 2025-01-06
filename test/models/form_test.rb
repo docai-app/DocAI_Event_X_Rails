@@ -15,6 +15,7 @@
 #  display_order :jsonb            not null
 #  is_active     :boolean          default(FALSE), not null
 #  meta          :jsonb            not null
+#  email_enabled :boolean          default(FALSE)
 #
 require 'test_helper'
 

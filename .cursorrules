@@ -1,0 +1,15 @@
+# DocAI Event X Rails 專案開發規則
+
+## 總則
+- 遵循 Ruby on Rails 最佳實踐和慣例
+- 使用清晰易懂的命名和註釋
+- 保持代碼簡潔,避免重複
+- 優先考慮可維護性和可擴展性
+- 遵循 RESTful API 設計原則
+- 必須要查看整個codebase, 不能只看單一檔案
+
+## 目錄結構規範
+- 所有的 API 控制器放在 `app/controllers/api` 目錄下
+- 所有的郵件模板放在 `app/views/mailers` 目錄下
+- 所有的任務腳本放在 `lib/tasks` 目錄下
+- 所有的數據庫遷移文件放在 `db/migrate` 目錄下

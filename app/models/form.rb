@@ -15,9 +15,12 @@
 #  display_order :jsonb            not null
 #  is_active     :boolean          default(FALSE), not null
 #  meta          :jsonb            not null
+#  email_enabled :boolean          default(FALSE)
 #
 class Form < ApplicationRecord
   has_many :form_submissions, dependent: :destroy
+  has_one :email_template, dependent: :destroy
+  accepts_nested_attributes_for :email_template, allow_destroy: true
 
   validates :name, presence: true
   validates :json_schema, presence: true
@@ -27,4 +30,10 @@ class Form < ApplicationRecord
 
   scope :active, -> { where(is_active: true) }
   scope :inactive, -> { where(is_active: false) }
+
+  def email_template_attributes=(attributes)
+    return unless email_enabled?
+
+    super
+  end
 end
