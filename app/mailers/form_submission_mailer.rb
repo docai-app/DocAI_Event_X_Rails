@@ -35,6 +35,7 @@ class FormSubmissionMailer < ApplicationMailer
   # end
 
   def confirmation_email(form_submission_id)
+    retries ||= 0
     @form_submission = FormSubmission.find(form_submission_id)
 
     # 檢查表單是否啟用郵件功能
@@ -57,6 +58,23 @@ class FormSubmissionMailer < ApplicationMailer
     )
 
     @form_submission.update(confirmation_email_sent: true, confirmation_email_sent_at: Time.current)
+  rescue StandardError => e
+    if (retries += 1) <= 3
+      Rails.logger.warn("重試發送郵件 #{retries}/3: #{e.message}")
+      sleep(2 ** retries)
+      retry
+    else
+      Rails.logger.error("郵件發送失敗: #{e.message}")
+      raise
+    end
+  end
+
+  def validate_email_data
+    return false unless form&.email_enabled?
+    return false unless form.email_template
+    return false if submission_data['email'].blank?
+    
+    template.placeholders.all? { |p| submission_data[p].present? }
   end
 
   private
