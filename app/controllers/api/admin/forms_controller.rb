@@ -56,6 +56,7 @@ module Api
           meta: {
             display: %i[title description]
           },
+          display_order: [],
           json_schema: {},
           ui_schema: {},
           form_data: {},
