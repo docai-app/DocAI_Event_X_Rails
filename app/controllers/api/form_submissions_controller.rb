@@ -71,11 +71,22 @@ module Api
     def search_by_form
       form_id = params[:form_id]
       query = params[:query]
-      @form_submissions = FormSubmission.where(form_id:).where(
-        "submission_data->>'lastName' ILIKE ? OR submission_data->>'firstName' ILIKE ? OR submission_data->>'email' ILIKE ?",
-        "%#{query}%", "%#{query}%", "%#{query}%"
-      ).order(created_at: :desc)
-      @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(@form_submissions.size)
+    #   @form_submissions = FormSubmission.where(form_id:).where(
+    #     "submission_data->>'lastName' ILIKE ? OR submission_data->>'firstName' ILIKE ? OR submission_data->>'email' ILIKE ?",
+    #     "%#{query}%", "%#{query}%", "%#{query}%"
+    #   ).order(created_at: :desc)
+    if query.present?
+        @form_submissions = FormSubmission.where(form_id:).where(
+            "submission_data->>'lastName' ILIKE ? OR submission_data->>'firstName' ILIKE ? OR submission_data->>'email' ILIKE ?",
+            "%#{query}%", "%#{query}%", "%#{query}%"
+        )
+    else
+        @form_submissions = FormSubmission.where(form_id:)
+    end
+
+  @form_submissions = @form_submissions.order(created_at: :desc)
+      per_page = [@form_submissions.size, 1].max # 至少为1
+      @form_submissions = Kaminari.paginate_array(@form_submissions).page(params[:page]).per(per_page)
       render json: { success: true, form_submissions: @form_submissions, meta: pagination_meta(@form_submissions) }
     rescue StandardError => e
       render json: { success: false, error: e.message }, status: :unprocessable_entity
